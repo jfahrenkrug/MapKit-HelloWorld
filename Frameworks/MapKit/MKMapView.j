@@ -10,6 +10,7 @@
     MKMapScene      _scene              @accessors(property=scene);
     BOOL            _mapReady;
     BOOL            _googleAjaxLoaded;
+    id delegate @accessors;
 }
 
 - (id)initWithFrame:(CGRect)aFrame apiKey:(CPString)apiKey
@@ -124,6 +125,10 @@
     GEvent.addDomListener(document.body, 'mouseup', function() { GEvent.trigger(window, 'mouseup'); });
 
     _mapReady = YES;
+    
+    if (delegate && [delegate respondsToSelector:@selector(mapViewIsReady:)]) {
+        [delegate mapViewIsReady:self];
+    }
 }
 - (void)setFrameSize:(CGSize)aSize
 {

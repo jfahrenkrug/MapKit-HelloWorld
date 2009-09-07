@@ -22,8 +22,8 @@
         var colour = flags[Math.floor(Math.random()*5)];
 
         var flagIcon = new GIcon();
-        flagIcon.image = "MapKit/Resources/flag-" + colour + ".png";
-        flagIcon.shadow = "MapKit/Resources/flag-shadow.png";
+        flagIcon.image = "Frameworks/MapKit/Resources/flag-" + colour + ".png";
+        flagIcon.shadow = "Frameworks/MapKit/Resources/flag-shadow.png";
         flagIcon.iconSize = new GSize(32, 32);
         flagIcon.shadowSize = new GSize(43, 32);
         flagIcon.iconAnchor = new GPoint(4, 30);
