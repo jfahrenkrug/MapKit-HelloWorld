@@ -22,7 +22,7 @@
 
     var frameRect = CGRectMake(0,0, CPRectGetWidth([contentView frame]), CPRectGetHeight([contentView frame]));
     _mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 0, frameRect.size.width, frameRect.size.height) apiKey:''];
-    //[_mapView setAutoresizingMask:CPViewHeightSizable | CPViewWidthSizable];
+    [_mapView setAutoresizingMask:CPViewHeightSizable | CPViewWidthSizable];
     [_mapView setDelegate:self];
     [contentView addSubview:_mapView];
 

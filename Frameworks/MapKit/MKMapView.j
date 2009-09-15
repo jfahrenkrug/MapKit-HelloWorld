@@ -7,6 +7,22 @@
 /* a "class" variable that will hold the domWin.google.maps object/"namespace" */
 var gmNamespace = nil;
 
+@implementation CPWebView(ScrollFixes) {
+    - (void)loadHTMLStringWithoutMessingUpScrollbars:(CPString)aString
+    {
+        [self _startedLoading];
+        
+        _ignoreLoadStart = YES;
+        _ignoreLoadEnd = NO;
+        
+        _url = null;
+        _html = aString;
+        
+        [self _load];
+    }
+}
+@end
+
 @implementation MKMapView : CPWebView
 {
     CPString        _apiKey;
@@ -29,7 +45,7 @@ var gmNamespace = nil;
         var bounds = [self bounds];
         
         [self setFrameLoadDelegate:self];
-        [self loadHTMLString:@"<html><head></head><body><div id='MKMapViewDiv' style='position: absolute; left: 0px; top: 0px; width: 50%; height: 100%;'></div></body></html>" baseURL:nil];
+        [self loadHTMLStringWithoutMessingUpScrollbars:@"<html><head></head><body><div id='MKMapViewDiv' style='left: 0px; top: 0px; width: 100%; height: 100%;'></div></body></html>"];
     }
 
     return self;
@@ -86,6 +102,16 @@ var gmNamespace = nil;
     }
 }
 
+/* Overriding CPWebView's implementation */
+- (BOOL)_resizeWebFrame {
+    var width = [self bounds].size.width,
+        height = [self bounds].size.width;
+
+    _iframe.setAttribute("width", width);
+    _iframe.setAttribute("height", height);
+
+    [_frameView setFrameSize:CGSizeMake(width, height)];
+}
 
 - (void)viewDidMoveToSuperview
 {
