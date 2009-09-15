@@ -1,6 +1,11 @@
 @import <AppKit/CPView.j>
 @import "MKMapScene.j"
 @import "MKMarker.j"
+@import "MKLocation.j"
+@import "MKPolyline.j"
+
+/* a "class" variable that will hold the domWin.google.maps object/"namespace" */
+var gmNamespace = nil;
 
 @implementation MKMapView : CPWebView
 {
@@ -54,21 +59,17 @@
 - (void)createMap
 {
     var domWin = [self DOMWindow];
-    domWin.GEvent  = domWin.google.maps.Event;
-        domWin.GMap2   = domWin.google.maps.Map2;
-        domWin.GLatLng = domWin.google.maps.LatLng;
-        domWin.GPoint  = domWin.google.maps.Point;
+    //remember the google maps namespace
+    gmNamespace = domWin.google.maps;
 
     //console.log("Creating map");
-    _gMap = new domWin.GMap2(_DOMMapElement);
+    _gMap = new gmNamespace.Map2(_DOMMapElement);
     //_gMap.addMapType(G_SATELLITE_3D_MAP);
-    _gMap.setMapType(domWin.G_PHYSICAL_MAP);
+    _gMap.setMapType(gmNamespace.G_PHYSICAL_MAP);
     _gMap.setUIToDefault();
     _gMap.enableContinuousZoom();
-    _gMap.setCenter(new domWin.GLatLng(52, -1), 8);
+    _gMap.setCenter(new gmNamespace.LatLng(52, -1), 8);
     _gMap.setZoom(2);
-
-
 
     _mapReady = YES;
     
@@ -94,11 +95,17 @@
     [super viewDidMoveToSuperview];
 }
 
-- (MKMarker)addMarker:(MKMarker)marker atLocation:(GLatLng)location
+- (void)setCenter:(MKLocation)aLocation {
+    if (_mapReady) {
+        _gMap.setCenter([aLocation googleLatLng]);
+    }
+}
+
+- (MKMarker)addMarker:(MKMarker)aMarker atLocation:(MKLocation)aLocation
 {
     if (_mapReady) {
-        var gMarker = [marker gMarker];
-        gMarker.setLatLng(location);
+        var gMarker = [aMarker gMarker];
+        gMarker.setLatLng([aLocation googleLatLng]);
         _gMap.addOverlay(gMarker);
     } else {
         // TODO some sort of queue?
@@ -109,6 +116,10 @@
 - (void)addMapItem:(MKMapItem)mapItem
 {
     [mapItem addToMapView:self];
+}
+
++ (JSObject)gmNamespace {
+    return gmNamespace;
 }
 
 @end

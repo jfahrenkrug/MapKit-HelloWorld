@@ -33,10 +33,20 @@
 }
 
 - (void)mapViewIsReady:(MKMapView)mapView {
-    var loc = [_mapView DOMWindow].GLatLng.fromUrlValue("51.8978655,-8.4710941");
-    var marker = [[MKMarker alloc] initAtLocation:loc andNamespace:[_mapView DOMWindow]];
+    var loc = [[MKLocation alloc] initWithLatitude:51.8978655 andLongitude:-8.4710941];
+    var marker = [[MKMarker alloc] initAtLocation:loc];
     [marker addToMapView:_mapView];
-    [_mapView gMap].setCenter(loc);
+    [mapView setCenter:loc];
+    
+    //draw line
+    var line = [MKPolyline polyline];
+    [line addLocation:[MKLocation locationWithLatitude:51.8978655 andLongitude:-8.4710941]];
+    [line addLocation:[MKLocation locationWithLatitude:37.775196 andLongitude:-122.419204]];
+    [line addToMapView:_mapView];
+    
+    //add another marker
+    var marker = [[MKMarker alloc] initAtLocation:[MKLocation locationWithLatitude:37.775196 andLongitude:-122.419204]];
+    [marker addToMapView:_mapView];
 }
 
 @end
