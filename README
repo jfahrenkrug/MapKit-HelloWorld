@@ -3,3 +3,12 @@ Cappuccino MapKit Example
 
 This is a very simple example project that uses MapKit for Cappuccino to create
 a full screen map.
+
+You need to run
+git submodule init
+
+and
+
+git submodule update
+
+after you clone the repo.

@@ -1,0 +1,3 @@
+[submodule "Frameworks/MapKit"]
+	path = Frameworks/MapKit
+	url = git://github.com/jfahrenkrug/MapKit.git
