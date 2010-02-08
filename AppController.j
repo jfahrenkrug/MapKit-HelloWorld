@@ -35,6 +35,7 @@
 - (void)mapViewIsReady:(MKMapView)mapView {
     var loc = [[MKLocation alloc] initWithLatitude:51.8978655 andLongitude:-8.4710941];
     var marker = [[MKMarker alloc] initAtLocation:loc];
+    [marker setInfoWindowHTML:'<object width="384" height="313"><param name="movie" value="http://www.youtube.com/v/J---aiyznGQ&hl=en_US&fs=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/J---aiyznGQ&hl=en_US&fs=1" type="application/x-shockwave-flash" width="384" height="313" allowscriptaccess="always" allowfullscreen="true"></embed></object>' openOnClick:YES];
     [marker addToMapView:_mapView];
     [mapView setCenter:loc];
     
@@ -47,6 +48,7 @@
     //add another marker
     var marker = [[MKMarker alloc] initAtLocation:[MKLocation locationWithLatitude:37.775196 andLongitude:-122.419204]];
     [marker addToMapView:_mapView];
+    [marker setInfoWindowHTML:@"Visit my <a href='http://springenwerk.com'>great website</a>!" openOnClick:YES];
 }
 
 @end
